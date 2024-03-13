@@ -12,8 +12,7 @@ import model.excecoes.SenhaMuitoPequenaException;
 
 public interface DAO {
 	
-	Aluno cadastrarAluno(String nome, String email1, String email2, String senha1, String senha2, String matricula, String sex) 
-			throws EmailInvalidoException,EmailDiferenteException, SenhaMuitoPequenaException, SenhaDiferenteException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException;
+	void cadastrarAluno(String nome, String email1, String email2, String senha1, String senha2, String matricula, String sex) ;
 	
 	boolean adicionarAluno (Aluno a) throws AlunoJaMatriculadoException, EmailJaCadastradoException;
 

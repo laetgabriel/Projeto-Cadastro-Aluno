@@ -83,8 +83,7 @@ public class Central{
 		throw new EmailNaoEncontradoException();
 	}
 
-
-
+	
 	public Aluno login(String email, String senha, Central central) throws CredenciaisInvalidasException {
 
 		for(Aluno a: central.getTodosOsAlunos()) {
