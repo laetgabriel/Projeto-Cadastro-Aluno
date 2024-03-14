@@ -2,9 +2,7 @@ package controller;
 
 import model.Aluno;
 import model.AlunoServices;
-import model.Sexo;
 import model.dao.AlunoDAO;
-import model.dao.DB;
 import model.dto.AlunoCadastroDTO;
 import model.dto.AlunoDTO;
 import model.excecoes.AlunoJaMatriculadoException;
@@ -28,12 +26,12 @@ public class AlunoController {
 	
 	public void cadastrarAluno(AlunoCadastroDTO a)
 			throws EmailInvalidoException,EmailDiferenteException, SenhaMuitoPequenaException, SenhaDiferenteException, CamposVaziosException, AlunoJaMatriculadoException, EmailJaCadastradoException {
-		String nome = a.nome().trim();;
-		String email = a.email().trim();
-		String email2 = a.email().trim();
-		String senha = a.senha().trim();
-		String senha2 = a.senha2().trim();
-		String matricula = a.matricula().trim();
+		String nome = a.nome();
+		String email = a.email();
+		String email2 = a.email2();
+		String senha = a.senha();
+		String senha2 = a.senha2();
+		String matricula = a.matricula();
 		
 		if(nome.isBlank() || email.isBlank() || email2.isBlank() || senha.isBlank() || senha2.isBlank() || matricula.isBlank()) {
 			throw new CamposVaziosException();
@@ -61,7 +59,7 @@ public class AlunoController {
 	
 	public void editarAluno(AlunoCadastroDTO a) 
 			throws EmailInvalidoException, SenhaMuitoPequenaException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException{
-		if(a.nome().isBlank() || a.email().isBlank() || a.senha2().isBlank()) {
+		if(a.nome().isBlank() || a.email2().isBlank() || a.senha2().isBlank()) {
 			throw new CamposVaziosException();
 		}else if(a.senha2().length() < 8){
 			throw new SenhaMuitoPequenaException();

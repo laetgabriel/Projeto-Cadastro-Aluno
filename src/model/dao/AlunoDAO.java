@@ -53,7 +53,7 @@ public class AlunoDAO implements DAO{
 		for(Aluno aluno:aServices.getTodosOsAlunos()) {
 			if(aluno.getMatricula().equals(alunoCadastroDTO.matricula())){
 				aluno.setNome(alunoCadastroDTO.nome());
-				aluno.setEmail(alunoCadastroDTO.email());
+				aluno.setEmail(alunoCadastroDTO.email2());
 				aluno.setSenha(alunoCadastroDTO.senha2());
 				aluno.setMatricula(alunoCadastroDTO.matricula());
 				aluno.setSexo(alunoCadastroDTO.sexo());

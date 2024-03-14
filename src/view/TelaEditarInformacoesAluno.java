@@ -15,7 +15,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-import model.Aluno;
 import model.Sexo;
 import model.dto.AlunoCadastroDTO;
 import model.dto.AlunoDTO;
@@ -149,6 +148,7 @@ public class TelaEditarInformacoesAluno extends TelaPadrao{
 
 	private void adicionarComboBox() {
 		cGenero = FabricaJComboBox.criarJComboBpx(opcoes, 487, 310, 120, 30, Color.WHITE, Color.BLACK, 12);
+		cGenero.setEnabled(false);
 		add(cGenero);
 	}
 
@@ -169,16 +169,13 @@ public class TelaEditarInformacoesAluno extends TelaPadrao{
 		bSalvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				Sexo sexo;
 				try {
-					System.out.println("antes" + Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase()));
-					alunoCadastroDTO = new AlunoCadastroDTO(tNome.getText(), tEmail.getText(), tNovoEmail.getText(), tSenha.getText(), tNovaSenha.getText(), fMatricula.getText(),Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase()));
-					System.out.println("Depois" + Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase()));
+					sexo = Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase());
+					alunoCadastroDTO = new AlunoCadastroDTO(tNome.getText(), tEmail.getText(), tNovoEmail.getText(), tSenha.getText(), tNovaSenha.getText(), fMatricula.getText(), sexo);
 					getAlunoController().editarAluno(alunoCadastroDTO);
 					FabricaJOptionPane.criarMsgValido("Edição feita com sucesso!");
 					dispose();
-					
-					System.out.println("to por ca" + alunoCadastroDTO);
-					
 					new TelaHomeAluno();
 					
 				} catch (EmailInvalidoException | SenhaMuitoPequenaException | AlunoJaMatriculadoException

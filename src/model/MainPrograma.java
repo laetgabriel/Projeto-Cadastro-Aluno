@@ -5,7 +5,7 @@ import view.TelaLogin;
 public class MainPrograma {
 	public static void main(String[] args) {
 		DB dados = new DB();
-		Central central = dados.recuperarCentral();
+		AlunoServices central = dados.recuperarDados();
 		
 		new TelaLogin();
 	}
