@@ -1,7 +1,9 @@
 package model.dao;
 
 import model.Aluno;
-import model.Central;
+import model.AlunoServices;
+import model.dto.AlunoCadastroDTO;
+import model.dto.AlunoDTO;
 import model.excecoes.AlunoJaMatriculadoException;
 import model.excecoes.CamposVaziosException;
 import model.excecoes.EmailDiferenteException;
@@ -12,13 +14,13 @@ import model.excecoes.SenhaMuitoPequenaException;
 
 public interface DAO {
 	
-	void cadastrarAluno(String nome, String email1, String email2, String senha1, String senha2, String matricula, String sex) ;
+	void cadastrarAluno(AlunoCadastroDTO a) 
+			throws EmailInvalidoException,EmailDiferenteException, SenhaMuitoPequenaException, SenhaDiferenteException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException;
 	
-	boolean adicionarAluno (Aluno a) throws AlunoJaMatriculadoException, EmailJaCadastradoException;
+	void adicionarAluno (Aluno a) throws AlunoJaMatriculadoException, EmailJaCadastradoException;
 
-	boolean excluirAluno(Aluno a);
+	void excluirAluno(AlunoDTO a);
 	
-	void editarAluno(Central central, Aluno aluno, String nome, String email, String senha, String matricula, String sex) throws EmailInvalidoException, SenhaMuitoPequenaException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException;
+	void editarAluno(AlunoCadastroDTO a) throws EmailInvalidoException, SenhaMuitoPequenaException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException;
 	
-	String recuperarEmailPorMatricula(Central central, String matricula);
 }

@@ -1,42 +1,31 @@
 package model;
 
+import model.dto.AlunoCadastroDTO;
 import model.dto.AlunoDTO;
 
 public class Aluno{
-	private AlunoDTO alunoDTO = new AlunoDTO();
 	
 	private String nome;
 	private String email;
 	private String senha;
+	private String senha2;
 	private String matricula;
 	private Sexo sexo;
 	
-	public Aluno(String nome, String email, String senha, Sexo sexo) {
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-		this.sexo = sexo;
-	}
-	public Aluno(String nome, String email, String senha) {
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
+	public Aluno (AlunoCadastroDTO alunoCadastroDTO) {
+		nome = alunoCadastroDTO.nome();
+		email = alunoCadastroDTO.email();
+		senha = alunoCadastroDTO.senha();
+		matricula = alunoCadastroDTO.matricula();
+		sexo = alunoCadastroDTO.sexo();
 	}
 	
-	public Aluno(String nome, Sexo sexo, String matricula, String email, String senha) {
-		this.nome = nome;
-		this.sexo = sexo;
-		this.matricula = matricula;
-		this.email = email;
-		this.senha = senha;
-		
-	}
-	
-	public Aluno(String nome, String matricula, String email, String senha) {
-		this.nome = nome;
-		this.matricula = matricula;
-		this.email = email;
-		this.senha = senha;
+	public Aluno(AlunoDTO alunoDTO) {
+		nome = alunoDTO.nome();
+		email = alunoDTO.email();
+		senha = alunoDTO.senha();
+		matricula = alunoDTO.matricula();
+		sexo = alunoDTO.sexo();
 	}
 	
 	public Aluno(){
@@ -91,4 +80,14 @@ public class Aluno{
 	public void setMatricula(String m) {
 		matricula = m;
 	}
+	
+	public String getSenha2() {
+		return senha2;
+	}
+
+	public void setSenha2(String senha2) {
+		this.senha2 = senha2;
+	}	
+	
+
 }

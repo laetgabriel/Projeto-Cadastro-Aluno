@@ -9,7 +9,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
-import model.Central;
+import model.AlunoServices;
 
 public class DB {
 	private XStream xStream = new XStream( new DomDriver( "UTF-8" ));
@@ -19,7 +19,7 @@ public class DB {
 		xStream.addPermission(AnyTypePermission.ANY);
 	}
 	
-	public void salvarCentral(Central central) {
+	public void salvarDados(AlunoServices central) {
 		
 		try {
 			File arquivo = new File("db.xml");
@@ -35,18 +35,18 @@ public class DB {
 		
 	}
 	
-	public Central recuperarCentral() {
+	public AlunoServices recuperarDados() {
 		File arquivo = new File("db.xml");
 		
 		if(arquivo.exists()) {
 			try {
 				FileInputStream fis = new FileInputStream(arquivo);
 				
-				return (Central) xStream.fromXML(fis);
+				return (AlunoServices) xStream.fromXML(fis);
 			} catch (FileNotFoundException e) {
 				e.getMessage();
 			}
 		}
-		return new Central();	
+		return new AlunoServices();	
 	}
 }

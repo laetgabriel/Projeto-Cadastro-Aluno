@@ -17,6 +17,8 @@ import javax.swing.text.MaskFormatter;
 
 import model.Aluno;
 import model.Sexo;
+import model.dto.AlunoCadastroDTO;
+import model.dto.AlunoDTO;
 import model.excecoes.AlunoJaMatriculadoException;
 import model.excecoes.CamposVaziosException;
 import model.excecoes.EmailInvalidoException;
@@ -39,10 +41,11 @@ public class TelaEditarInformacoesAluno extends TelaPadrao{
 	private JPasswordField tNovaSenha;
 	private JFormattedTextField fMatricula;
 	private JComboBox<String> cGenero;
-	private Aluno aluno;
+	private AlunoDTO aluno;
+	private AlunoCadastroDTO alunoCadastroDTO;
 	String[] opcoes = {"Masculino","Feminino"};
 
-	public TelaEditarInformacoesAluno(Aluno aluno) {
+	public TelaEditarInformacoesAluno(AlunoDTO aluno) {
 		super("EDITAR INFORMAÇÕES");
 		getContentPane().setBackground(Color.BLACK);
 		this.aluno = aluno;
@@ -63,11 +66,11 @@ public class TelaEditarInformacoesAluno extends TelaPadrao{
 		adicionarMenuBarAluno();
 	}
 	public void preencherCampos() {
-		tNome.setText(aluno.getNome());
-		fMatricula.setText(aluno.getMatricula());
-		tEmail.setText(aluno.getEmail());
-		tSenha.setText(aluno.getSenha());
-		if(aluno.getSexo() == Sexo.MASCULINO) {
+		tNome.setText(aluno.nome());
+		fMatricula.setText(aluno.matricula());
+		tEmail.setText(aluno.email());
+		tSenha.setText(aluno.senha());
+		if(aluno.sexo() == Sexo.MASCULINO) {
 			cGenero.setSelectedItem(opcoes[0]);	
 		}else {
 			cGenero.setSelectedItem(opcoes[1]);
@@ -166,15 +169,15 @@ public class TelaEditarInformacoesAluno extends TelaPadrao{
 		bSalvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
 				try {
-					getAlunoController().editarAluno(getAlunoController().getAlunoDAO(), aluno, tNome.getText(), tNovoEmail.getText(), tNovaSenha.getText(),
-							fMatricula.getText(), opcoes[cGenero.getSelectedIndex()]);
-					
-					getAlunoController().getDados().salvarCentral(getAlunoController().getAlunoDAO());
-					
+					System.out.println("antes" + Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase()));
+					alunoCadastroDTO = new AlunoCadastroDTO(tNome.getText(), tEmail.getText(), tNovoEmail.getText(), tSenha.getText(), tNovaSenha.getText(), fMatricula.getText(),Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase()));
+					System.out.println("Depois" + Sexo.valueOf(cGenero.getSelectedItem().toString().toUpperCase()));
+					getAlunoController().editarAluno(alunoCadastroDTO);
 					FabricaJOptionPane.criarMsgValido("Edição feita com sucesso!");
 					dispose();
+					
+					System.out.println("to por ca" + alunoCadastroDTO);
 					
 					new TelaHomeAluno();
 					
@@ -183,7 +186,7 @@ public class TelaEditarInformacoesAluno extends TelaPadrao{
 					FabricaJOptionPane.criarMsgErro(e1.getMessage());		
 				}
 
-			}
+			} 
 
 		});
 

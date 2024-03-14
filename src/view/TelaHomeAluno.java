@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
 import model.Aluno;
+import model.dto.AlunoDTO;
 import view.fabricacomponentes.FabricaIcones;
 import view.fabricacomponentes.FabricaJButton;
 import view.fabricacomponentes.FabricaJLabel;
@@ -48,7 +49,7 @@ public class TelaHomeAluno extends TelaPadrao{
 		bEditarInformacoes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Aluno aluno = (Aluno) getAlunoController().getUsuario();
+				AlunoDTO aluno = (AlunoDTO) getAlunoController().getUsuario();
 				new TelaEditarInformacoesAluno(aluno);
 			}
 		});
@@ -61,7 +62,7 @@ public class TelaHomeAluno extends TelaPadrao{
 				int opc = FabricaJOptionPane.criarMsgDeOpcao("Confirmação", "Deseja excluir sua conta?");
 				
 				if (opc == JOptionPane.YES_OPTION) {
-					Aluno aluno = (Aluno) getAlunoController().getUsuario();
+					AlunoDTO aluno = (AlunoDTO) getAlunoController().getUsuario();
 					if (getAlunoController().excluirAluno(aluno)) {
 						FabricaJOptionPane.criarMsgValido("Conta excluída com sucesso!");
 						dispose();
@@ -81,6 +82,15 @@ public class TelaHomeAluno extends TelaPadrao{
 			}
 		});
 		add(bSair);
+		
+		JButton bListar = FabricaJButton.criarJButton("Listar", 325, 360, 250, 40, Color.GREEN, Color.WHITE, 12);
+		bListar.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new TelaListarAluno();
+			}
+		});
+		add(bListar);
 	}
 
 	private void adicionarIcones() {
@@ -90,7 +100,9 @@ public class TelaHomeAluno extends TelaPadrao{
 		JLabel imagemFundo = FabricaIcones.criarIcone(FabricaImagens.TELA_LOGIN, 0, 0, 900, 800);
 		add(imagemFundo);
 	}
+	
 	public static void main(String[] args) {
 		new TelaHomeAluno();
 	}
+	
 }

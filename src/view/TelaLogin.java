@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import controller.AlunoController;
 import model.Aluno;
+import model.dto.AlunoDTO;
 import model.excecoes.CredenciaisInvalidasException;
 import view.fabricacomponentes.*;
 
@@ -69,8 +70,8 @@ public class TelaLogin extends TelaPadrao{
 				String login = tLogin.getText();
 				String senha = tSenha.getText();
 				try {
-					getAlunoController().setUsuario(getAlunoController().getAlunoDAO().login(login, senha, getAlunoController().getAlunoDAO()));
-					Aluno usuario = getAlunoController().getUsuario();
+					getAlunoController().setUsuario(getAlunoController().getAlunoServices().login(login, senha, getAlunoController().getAlunoServices()));
+					AlunoDTO usuario = getAlunoController().getUsuario();
 					if (usuario != null) {
 						dispose();
 						new TelaHomeAluno();

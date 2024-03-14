@@ -76,7 +76,7 @@ public class TelaEsqueciSenha extends TelaPadrao{
 				}
 				else{
 					try {
-					getAlunoController().getAlunoDAO().mandarSenhaPorEmail(tEmail.getText());
+					getAlunoController().getAlunoServices().mandarSenhaPorEmail(tEmail.getText());
 					FabricaJOptionPane.criarMsg("Senha Enviada por Email!");
 					dispose();
 					new TelaLogin();
@@ -104,4 +104,6 @@ public class TelaEsqueciSenha extends TelaPadrao{
 	public JTextField getTEmail() {
 		return tEmail;
 	}
+	
+	
 }

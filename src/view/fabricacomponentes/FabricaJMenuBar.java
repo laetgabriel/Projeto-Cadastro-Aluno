@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 
 import controller.AlunoController;
 import model.Aluno;
+import model.dto.AlunoDTO;
 import view.FabricaImagens;
 import view.TelaEditarInformacoesAluno;
 import view.TelaHomeAluno;
@@ -37,7 +38,7 @@ public class FabricaJMenuBar{
 		todosAlunos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tela.dispose();
-				Aluno aluno = (Aluno) alunoController.getUsuario();
+				AlunoDTO aluno = (AlunoDTO) alunoController.getUsuario();
 				new TelaEditarInformacoesAluno(aluno);
 			}
 		});

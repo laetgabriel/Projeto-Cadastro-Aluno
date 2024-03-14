@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import controller.AlunoController;
+import model.Sexo;
+import model.dto.AlunoCadastroDTO;
+import model.dto.AlunoDTO;
 import model.excecoes.AlunoJaMatriculadoException;
 import model.excecoes.CamposVaziosException;
 import model.excecoes.EmailDiferenteException;
@@ -143,8 +146,9 @@ public class TelaCadastroAluno extends TelaPadrao{
 			public void actionPerformed(ActionEvent e) {
 				
 					try {
-						getAlunoController().cadastrarAluno(tNome.getText(), tEmail.getText(), tConfirmaEmail.getText(),
-								tSenha.getText(), tConfirmaSenha.getText(), fMatricula.getText(), opcoes[cGenero.getSelectedIndex()]);
+						Sexo sexo = Sexo.valueOf(opcoes[cGenero.getSelectedIndex()].toUpperCase());
+						AlunoCadastroDTO alunoDTO = new AlunoCadastroDTO(tNome.getText(), tEmail.getText(), tConfirmaEmail.getText(), tSenha.getText(), tConfirmaSenha.getText(), fMatricula.getText(), sexo);	
+						getAlunoController().cadastrarAluno(alunoDTO);
 						FabricaJOptionPane.criarMsgValido("Cadastrado realizado com sucesso!");
 						dispose();
 						new TelaLogin();

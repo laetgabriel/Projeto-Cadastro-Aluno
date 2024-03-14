@@ -1,10 +1,12 @@
 package controller;
 
 import model.Aluno;
-import model.Central;
+import model.AlunoServices;
 import model.Sexo;
 import model.dao.AlunoDAO;
 import model.dao.DB;
+import model.dto.AlunoCadastroDTO;
+import model.dto.AlunoDTO;
 import model.excecoes.AlunoJaMatriculadoException;
 import model.excecoes.CamposVaziosException;
 import model.excecoes.EmailDiferenteException;
@@ -15,78 +17,75 @@ import model.excecoes.SenhaMuitoPequenaException;
 
 public class AlunoController {
 	
-	private static Aluno usuario;
-	private DB dados = new DB();
-	private Central central = dados.recuperarCentral();
+	private static AlunoDTO usuario;
+	private AlunoServices aServices;
 	private AlunoDAO alunoDAO;
 	
 	public AlunoController() {
 		this.alunoDAO = new AlunoDAO();
+		aServices = alunoDAO.getAlunoServices();
 	}
 	
-	public void cadastrarAluno(String nome, String email1, String email2, String senha1, String senha2, String matricula, String sex) throws EmailInvalidoException,EmailDiferenteException, SenhaMuitoPequenaException, SenhaDiferenteException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException{
-		Sexo sexo = Sexo.valueOf(sex.toUpperCase());
-		if(nome.isBlank() || email1.isBlank() || email2.isBlank() || senha1.isBlank() || senha2.isBlank() || matricula.isBlank()) {
+	public void cadastrarAluno(AlunoCadastroDTO a)
+			throws EmailInvalidoException,EmailDiferenteException, SenhaMuitoPequenaException, SenhaDiferenteException, CamposVaziosException, AlunoJaMatriculadoException, EmailJaCadastradoException {
+		String nome = a.nome().trim();;
+		String email = a.email().trim();
+		String email2 = a.email().trim();
+		String senha = a.senha().trim();
+		String senha2 = a.senha2().trim();
+		String matricula = a.matricula().trim();
+		
+		if(nome.isBlank() || email.isBlank() || email2.isBlank() || senha.isBlank() || senha2.isBlank() || matricula.isBlank()) {
 			throw new CamposVaziosException();
-		}else if (!email1.equals(email2)) {
+		}else if (!email.equals(email2)) {
 			throw new EmailDiferenteException();
-		}else if(senha1.length() < 8){
-			throw new SenhaMuitoPequenaException();
-		}else if (!senha1.equals(senha2)) {
-			throw new SenhaDiferenteException();
-		} else{
-			Central.validarEmail(email1);
-			Aluno a = new Aluno(nome, sexo, matricula, email1, senha1);	
-			adicionarAluno(a);
-			alunoDAO.cadastrarAluno(nome, email1, email2, senha1, senha2, matricula, sex);
-		}
-		
-	}
-	
-	public boolean adicionarAluno (Aluno a) throws AlunoJaMatriculadoException, EmailJaCadastradoException{
-		if (!central.getTodosOsAlunos().isEmpty()) {
-			central.verificarMatricula(a.getMatricula());
-			central.emailExiste(a.getEmail()); 
-		}
-		return alunoDAO.adicionarAluno(a);
-	}
-	
-	public boolean excluirAluno(Aluno a) {
-		return alunoDAO.excluirAluno(a);
-	}
-		
-	
-	public void editarAluno(Central central, Aluno aluno, String nome, String email, String senha, String matricula, String sex) 
-			throws EmailInvalidoException, SenhaMuitoPequenaException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException{
-		if(nome.isBlank() || email.isBlank() || senha.isBlank() || matricula.isBlank()) {
-			throw new CamposVaziosException();
 		}else if(senha.length() < 8){
 			throw new SenhaMuitoPequenaException();
+		}else if (!senha.equals(senha2)) {
+			throw new SenhaDiferenteException();
+		} else{
+			AlunoServices.validarEmail(email);
+			alunoDAO.cadastrarAluno(a);
 		}
-		central.emailExiste(email, aluno);
-		Central.validarEmail(email);
-		
-		alunoDAO.editarAluno(central, aluno, nome, email, senha, matricula, sex);
 	}
 	
-	public String recuperarEmailPorMatricula(Central central, String matricula) {
-		return alunoDAO.recuperarEmailPorMatricula(central, matricula);
+	public boolean excluirAluno(AlunoDTO a) {
+		for (Aluno aluno: alunoDAO.getAlunos()) {
+			if (aluno.getMatricula().equals(a.matricula())){
+				alunoDAO.excluirAluno(a);
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	public Aluno getUsuario() {
+	public void editarAluno(AlunoCadastroDTO a) 
+			throws EmailInvalidoException, SenhaMuitoPequenaException, CamposVaziosException, EmailJaCadastradoException, AlunoJaMatriculadoException{
+		if(a.nome().isBlank() || a.email().isBlank() || a.senha2().isBlank()) {
+			throw new CamposVaziosException();
+		}else if(a.senha2().length() < 8){
+			throw new SenhaMuitoPequenaException();
+		}
+		aServices.emailExiste(a);
+		AlunoServices.validarEmail(a.email2());
+		alunoDAO.editarAluno(a);
+	}
+	
+	
+	public AlunoDTO getUsuario() {
 		return usuario;
 	}
 	
-	public void setUsuario(Aluno u) {
+	public void setUsuario(AlunoDTO u) {
 		usuario = u;
 	}
-
-	public DB getDados() {
-		return dados;
+	
+	public AlunoDAO getAlunoDAO() {
+		return alunoDAO;
 	}
 	
-	public Central getAlunoDAO() {
-		return central;
+	public AlunoServices getAlunoServices() {
+		return aServices;
 	}
 	
 }
